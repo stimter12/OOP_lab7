@@ -11,7 +11,6 @@ public class TrainRepositoryTextImpl implements TrainRepository {
     @Override
     public void outputArray(List<Train> t, File file) {
         try(PrintWriter outputStream = new PrintWriter(file)) {
-            outputStream.println(t.size());
             for (Train train : t) {
                 outputStream.println(train.toStringFile());
             }
@@ -29,9 +28,8 @@ public class TrainRepositoryTextImpl implements TrainRepository {
     @Override
     public List<Train> readArray(File file) {
         try (BufferedReader inputStream = new BufferedReader(new FileReader(file))) {
-            int numberOfTrains = Integer.parseInt(inputStream.readLine());
-            List<Train> trains = new ArrayList<>(numberOfTrains);
-            for (int i = 0; i < numberOfTrains; i++) {
+            List<Train> trains = new ArrayList<>();
+            while (inputStream.ready()) {
                 String stringTrain = inputStream.readLine();
                 String[] stringTrainArray = stringTrain.split(",");
                 trains.add(TrainFactory.createTrain(
